@@ -4,7 +4,7 @@ import { IAuthController, IAuthService } from "src/be-interfaces";
 import { IAbtractService } from "src/be-shared/interfaces";
 import { User, UserRole, Role } from "src/be-models";
 import { AbtractService } from "src/be-shared/services";
-import { AuthGM, AuthVM } from "src/be-view-models";
+import { AuthGM, AuthVM, UserCM } from "src/be-view-models";
 import { compareSync } from "bcrypt";
 import { AuthService } from "src/be-services";
 
@@ -42,5 +42,4 @@ export class AuthController implements IAuthController {
             })
             .catch((err) => res.status(400).json({ message: "Có lỗi xảy ra" }));
     }
-
 }
