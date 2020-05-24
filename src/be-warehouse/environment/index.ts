@@ -154,13 +154,35 @@ export const environment = {
             auth: {
                 main: "/api/Auth",
                 token: "/api/Auth/Token",
-                password: "/api/Auth/Password",
-                avatar: "/api/Auth/Avatar",
             },
         },
         endPoint: "http://localhost:8888",
     },
     swagger: [
+        {
+            name: "Auth",
+            data: {
+                CM: {
+                    properties: {
+                        UserName: {
+                            title: "UserName",
+                            type: "string",
+                            minLength: 1,
+                        },
+                        PassWord: {
+                            title: "PassWord",
+                            type: "string",
+                            minLength: 1,
+                        },
+                    },
+                    required: ["UserName", "PassWord"],
+                },
+                UM: {
+                    properties: {},
+                    required: [],
+                },
+            },
+        },
         {
             name: "User",
             data: {

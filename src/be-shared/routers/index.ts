@@ -1,8 +1,10 @@
 import { Application } from "express";
 import { Sequelize, Model } from "sequelize-typescript";
 import { AbtractHaveChildController, AbtractNoChildController } from "../controllers";
+import { AuthService } from "src/be-services";
+import { environment } from "src/be-warehouse/environment";
 
-export const useAbtractRouter = <F extends Model, C extends Model, CM, UM, VM>(
+export const useAbtractRouterBase = <F extends Model, C extends Model, CM, UM, VM>(
     app: Application,
     sequelize: Sequelize,
     options: {
@@ -15,6 +17,7 @@ export const useAbtractRouter = <F extends Model, C extends Model, CM, UM, VM>(
         }, api: { main: string, byId: string },
     },
 ) => {
+    const AUTH = new AuthService(sequelize).useAuthorzie;
     const CONTROLLER = options.haveChild
         ? new AbtractHaveChildController<F, C, CM, UM, VM>(
             sequelize, options.content.model,
@@ -30,20 +33,20 @@ export const useAbtractRouter = <F extends Model, C extends Model, CM, UM, VM>(
             options.content.dataVM,
         );
     app.route(options.api.main)
-        .get((req, res, next) => {
+        .get(AUTH, (req, res, next) => {
             CONTROLLER.useGetAll(req, res, next);
         })
-        .post((req, res, next) => {
+        .post(AUTH, (req, res, next) => {
             CONTROLLER.useCreate(req, res, next);
         })
-        .put((req, res, next) => {
+        .put(AUTH, (req, res, next) => {
             CONTROLLER.useUpdate(req, res, next);
         });
     app.route(options.api.byId)
-        .get((req, res, next) => {
+        .get(AUTH, (req, res, next) => {
             CONTROLLER.useGetById(req, res, next);
         })
-        .delete((req, res, next) => {
+        .delete(AUTH, (req, res, next) => {
             CONTROLLER.useRemove(req, res, next);
         });
 };

@@ -1,12 +1,12 @@
 import { Application } from "express";
 import { Sequelize, Model } from "sequelize-typescript";
-import { useAbtractRouter } from "src/be-shared/routers";
+import { useAbtractRouterBase } from "src/be-shared/routers";
 import { Product } from "src/be-models";
 import { ProductCM, ProductUM, ProductVM } from "src/be-view-models";
 import { environment } from "src/be-warehouse/environment";
 
 export const useProductRouter = (app: Application, sequelize: Sequelize) => {
-    useAbtractRouter<any, Product, ProductCM, ProductUM, ProductVM>(app, sequelize, {
+    useAbtractRouterBase<any, Product, ProductCM, ProductUM, ProductVM>(app, sequelize, {
         haveChild: false,
         content: {
             model: Product,
